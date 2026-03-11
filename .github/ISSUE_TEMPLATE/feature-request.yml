@@ -1,0 +1,69 @@
+name: Feature Request
+description: Propose new functionality
+title: "[Feature]: "
+labels: ["type: feature", "status: needs-triage"]
+body:
+  - type: checkboxes
+    id: services
+    attributes:
+      label: Target Service(s)
+      description: Which services will this feature affect?
+      options:
+        - label: restaurant-backend
+        - label: restaurant-admin
+        - label: restaurant-ui
+        - label: restaurant-kds
+        - label: restaurant-pos
+        - label: Infrastructure / CI/CD
+    validations:
+      required: true
+
+  - type: dropdown
+    id: size
+    attributes:
+      label: Estimated Size
+      description: How large is this feature?
+      options:
+        - XS (< 1 hour)
+        - S (< half day)
+        - M (1-2 days)
+        - L (3-5 days)
+        - XL (> 1 week)
+    validations:
+      required: false
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? Who is affected?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any alternative solutions or features you've considered?
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: How do we know when this feature is done?
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+    validations:
+      required: true

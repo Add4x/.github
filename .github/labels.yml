@@ -1,0 +1,186 @@
+# Master label definitions for all Add4x restaurant-* repos
+# Synced via sync-labels.yml workflow using EndBug/label-sync
+
+# === Type ===
+- name: "type: bug"
+  color: "d73a4a"
+  description: "Something is broken"
+  aliases:
+    - "bug"
+
+- name: "type: feature"
+  color: "0075ca"
+  description: "New functionality"
+
+- name: "type: enhancement"
+  color: "a2eeef"
+  description: "Improvement to existing functionality"
+  aliases:
+    - "enhancement"
+
+- name: "type: docs"
+  color: "0075ca"
+  description: "Documentation only"
+  aliases:
+    - "documentation"
+    - "docs"
+
+- name: "type: chore"
+  color: "e4e669"
+  description: "Maintenance, dependencies, tooling"
+
+- name: "type: refactor"
+  color: "d4c5f9"
+  description: "Code restructuring without behavior change"
+
+- name: "type: security"
+  color: "b60205"
+  description: "Security vulnerability or hardening"
+  aliases:
+    - "security"
+
+# === Priority ===
+- name: "priority: critical"
+  color: "b60205"
+  description: "Must fix immediately, blocks production"
+  aliases:
+    - "P0"
+
+- name: "priority: high"
+  color: "d93f0b"
+  description: "Must be done this sprint"
+  aliases:
+    - "P1"
+
+- name: "priority: medium"
+  color: "fbca04"
+  description: "Should be done soon"
+  aliases:
+    - "P2"
+
+- name: "priority: low"
+  color: "0e8a16"
+  description: "Nice to have"
+  aliases:
+    - "P3"
+    - "P4"
+
+# === Status ===
+- name: "status: needs-triage"
+  color: "e4e669"
+  description: "Needs review and prioritization"
+  aliases:
+    - "triage"
+    - "needs-triage"
+
+- name: "status: in-progress"
+  color: "1d76db"
+  description: "Actively being worked on"
+  aliases:
+    - "in progress"
+    - "in-progress"
+
+- name: "status: blocked"
+  color: "b60205"
+  description: "Waiting on dependency"
+  aliases:
+    - "blocked"
+
+- name: "status: ready-for-review"
+  color: "0e8a16"
+  description: "Implementation done, needs review"
+  aliases:
+    - "ready for review"
+    - "needs-review"
+
+# === Service Scope ===
+- name: "scope: backend"
+  color: "5319e7"
+  description: "restaurant-backend (API, worker, database)"
+
+- name: "scope: admin"
+  color: "006b75"
+  description: "restaurant-admin (dashboard)"
+
+- name: "scope: ui"
+  color: "1d76db"
+  description: "restaurant-ui (customer-facing)"
+
+- name: "scope: kds"
+  color: "0e8a16"
+  description: "restaurant-kds (kitchen display)"
+
+- name: "scope: pos"
+  color: "d4c5f9"
+  description: "restaurant-pos (point of sale)"
+
+- name: "scope: infra"
+  color: "c2e0c6"
+  description: "Infrastructure, CI/CD, deployment"
+  aliases:
+    - "devops"
+    - "ci/cd"
+
+- name: "scope: platform"
+  color: "fbca04"
+  description: "Cross-service / platform-wide"
+  aliases:
+    - "cross-service"
+    - "platform"
+
+# === Size ===
+- name: "size: XS"
+  color: "c2e0c6"
+  description: "< 1 hour"
+
+- name: "size: S"
+  color: "0e8a16"
+  description: "< half day"
+
+- name: "size: M"
+  color: "fbca04"
+  description: "1-2 days"
+
+- name: "size: L"
+  color: "d93f0b"
+  description: "3-5 days"
+
+- name: "size: XL"
+  color: "b60205"
+  description: "> 1 week, consider splitting"
+
+# === Special ===
+- name: "good first issue"
+  color: "7057ff"
+  description: "Good for newcomers"
+
+- name: "help wanted"
+  color: "008672"
+  description: "Extra attention needed"
+
+- name: "duplicate"
+  color: "cfd3d7"
+  description: "Already exists"
+
+- name: "wontfix"
+  color: "ffffff"
+  description: "Will not be worked on"
+
+- name: "breaking-change"
+  color: "b60205"
+  description: "Breaking API change"
+  aliases:
+    - "breaking"
+
+- name: "needs-design"
+  color: "d4c5f9"
+  description: "Requires design work first"
+  aliases:
+    - "design"
+
+- name: "contract-change"
+  color: "5319e7"
+  description: "Affects API contract / OpenAPI spec"
+  aliases:
+    - "api-contract"
+    - "openapi"

@@ -1,0 +1,37 @@
+name: Sync Labels
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/labels.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1" # Monday 6am UTC — drift protection
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    name: Sync labels to ${{ matrix.repo }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo:
+          - Add4x/restaurant-backend
+          - Add4x/restaurant-admin
+          - Add4x/restaurant-ui
+          - Add4x/restaurant-kds
+          - Add4x/restaurant-pos
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync labels
+        uses: EndBug/label-sync@v2
+        with:
+          config-file: .github/labels.yml
+          repository: ${{ matrix.repo }}
+          delete-other-labels: true
+          token: ${{ secrets.ORG_GITHUB_TOKEN }}

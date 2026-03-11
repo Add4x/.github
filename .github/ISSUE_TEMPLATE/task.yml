@@ -1,0 +1,57 @@
+name: Task / Chore
+description: Maintenance, refactoring, or internal work
+title: "[Task]: "
+labels: ["type: chore", "status: needs-triage"]
+body:
+  - type: dropdown
+    id: service
+    attributes:
+      label: Target Service
+      description: Which service does this apply to?
+      options:
+        - restaurant-backend
+        - restaurant-admin
+        - restaurant-ui
+        - restaurant-kds
+        - restaurant-pos
+        - Infrastructure / CI/CD
+        - Platform-wide
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: What kind of task is this?
+      options:
+        - Dependency update
+        - Refactor
+        - Performance
+        - Testing
+        - Documentation
+        - CI/CD
+        - Security
+        - Tech debt
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What needs to be done and why?
+    validations:
+      required: true
+
+  - type: textarea
+    id: breakdown
+    attributes:
+      label: Task Breakdown
+      description: Break down the work into subtasks if applicable.
+      placeholder: |
+        - [ ] Step 1
+        - [ ] Step 2
+        - [ ] Step 3
+    validations:
+      required: false
