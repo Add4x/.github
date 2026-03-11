@@ -17,6 +17,7 @@ jobs:
     name: Sync labels to ${{ matrix.repo }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         repo:
           - Add4x/restaurant-backend
@@ -28,10 +29,64 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq \
+            https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
       - name: Sync labels
-        uses: EndBug/label-sync@v2
-        with:
-          config-file: .github/labels.yml
-          repository: ${{ matrix.repo }}
-          delete-other-labels: true
-          token: ${{ secrets.ORG_GITHUB_TOKEN }}
+        env:
+          GH_TOKEN: ${{ secrets.ORG_GITHUB_TOKEN }}
+          TARGET_REPO: ${{ matrix.repo }}
+        run: |
+          set -euo pipefail
+          CONFIG=".github/labels.yml"
+
+          # Collect existing labels from the target repo
+          mapfile -t existing < <(gh label list --repo "$TARGET_REPO" --json name -q '.[].name' --limit 200)
+
+          # Build a set of desired label names for later deletion pass
+          declare -A desired
+
+          count=$(yq '. | length' "$CONFIG")
+          for i in $(seq 0 $((count - 1))); do
+            name=$(yq -r ".[$i].name" "$CONFIG")
+            color=$(yq -r ".[$i].color" "$CONFIG")
+            desc=$(yq -r ".[$i].description // \"\"" "$CONFIG")
+            desired["$name"]=1
+
+            # Rename aliases first (old label → new name)
+            alias_count=$(yq ".[$i].aliases // [] | length" "$CONFIG")
+            for j in $(seq 0 $((alias_count - 1))); do
+              alias=$(yq -r ".[$i].aliases[$j]" "$CONFIG")
+              for ex in "${existing[@]}"; do
+                if [[ "$ex" == "$alias" ]]; then
+                  echo "↪ Renaming '$alias' → '$name'"
+                  gh label edit "$alias" --repo "$TARGET_REPO" --name "$name" \
+                    --color "$color" --description "$desc" 2>/dev/null || true
+                fi
+              done
+            done
+
+            # Create or update
+            if printf '%s\n' "${existing[@]}" | grep -qxF "$name"; then
+              echo "✏️  Updating '$name'"
+              gh label edit "$name" --repo "$TARGET_REPO" \
+                --color "$color" --description "$desc" 2>/dev/null || true
+            else
+              echo "➕ Creating '$name'"
+              gh label create "$name" --repo "$TARGET_REPO" \
+                --color "$color" --description "$desc" 2>/dev/null || true
+            fi
+          done
+
+          # Delete labels not in the desired set
+          for ex in "${existing[@]}"; do
+            if [[ -z "${desired[$ex]+x}" ]]; then
+              echo "🗑  Deleting '$ex'"
+              gh label delete "$ex" --repo "$TARGET_REPO" --yes 2>/dev/null || true
+            fi
+          done
+
+          echo "✅ Labels synced to $TARGET_REPO"
